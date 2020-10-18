@@ -1,0 +1,31 @@
+{
+    "soccer": {
+        "match_odds": [
+            {
+                "name": "home-away-65-min-1.44",
+                "mapping": "home-away",
+                "stake": 1.00,
+                "max_active": 1,
+                "min_odds": 1.44,
+                "min_game_time": 65,
+                "hedge_ratio": 50
+            },
+            {
+                "name": "hedge-home-away-70-min",
+                "mapping": "hedge-home-away",
+                "parent_bet": "home-away-65-min-1.44",
+                "hedge_stake_percent": 50,
+                "max_active": 1,
+                "min_game_time": 70
+            },
+            {
+                "name": "hedge-home-away-80-min",
+                "mapping": "hedge-home-away",
+                "parent_bet": "home-away-65-min-1.44",
+                "hedge_stake_percent": 50,
+                "max_active": 1,
+                "min_game_time": 85
+            }
+        ]
+    }
+}
