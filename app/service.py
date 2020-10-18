@@ -26,6 +26,8 @@ def parse_args():
 
     parser.add_argument('--account', action='store', type=str, default=None,
                         metavar='ACCOUNT', help='betfair account name')
+    parser.add_argument('--strategy', action='store', type=str, default='default',
+                        metavar='STRATEGY', help='betting strategy name')
 
     return parser.parse_args()
 
@@ -35,17 +37,19 @@ def get_config(name: str) -> dict:
         return json.loads(f.read())
 
 
-def main(account_name=None, **kwargs):
-    config = get_config(name='default')
+def main(account_name=None, strategy_name='default'):
+    dry_run = True
+    config = get_config(name=strategy_name)
     bookrunner = BookRunner(config=config)
 
     if account_name:
+        dry_run = False
         secrets = get_secrets(account_name)
         bookrunner.setup(secrets)
 
     while True:
         try:
-            bookrunner.run(**kwargs)
+            bookrunner.run(dry_run=dry_run)
             time.sleep(30)
 
         except OSError:
@@ -57,7 +61,7 @@ if __name__ == "__main__":
     args = parse_args()
 
     try:
-        main(account_name=args.account)
+        main(account_name=args.account, strategy_name=args.strategy)
 
     except KeyboardInterrupt:
         print('process aborted')
